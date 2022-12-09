@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "880106117978",
+    "project_id": "rexmovie-9df17",
+    "storage_bucket": "rexmovie-9df17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880106117978:android:1fc06eb125460ab5767163",
+        "android_client_info": {
+          "package_name": "com.example.rextor_movie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880106117978-j8c4rlifagjf6nnrt0td9omvj56lcfao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIVaDcgRybziaLzYx8iKentFZy5O40OMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "880106117978-j8c4rlifagjf6nnrt0td9omvj56lcfao.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "880106117978-2pr7s9kuib6oo5n6u9en8bmgvrfsbj7c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rextorMovie"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

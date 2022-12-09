@@ -1,6 +1,6 @@
 {
-    "name": "rextor_movie",
-    "short_name": "rextor_movie",
+    "name": "rextor_movie_movie",
+    "short_name": "rextor_movie_movie",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
