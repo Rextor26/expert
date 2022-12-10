@@ -1,16 +1,17 @@
 # rextor_movie
 
-A new Flutter project.
+## Codemagic
 
-## Getting Started
+[![Codemagic build status](https://api.codemagic.io/apps/6393607d6a70f740a53ae332/6393607d6a70f740a53ae331/status_badge.svg)](https://codemagic.io/apps/6393607d6a70f740a53ae332/6393607d6a70f740a53ae331/latest_build)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Tampilan ScreenShot 
+### CodeMagic
+![codemagic](https://user-images.githubusercontent.com/94028247/206842012-4211e3fd-c11b-4d83-96dc-df872e978bd9.jpeg)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Crashlytics
+![crashlitics](https://user-images.githubusercontent.com/94028247/206841935-b12dc36c-3da9-40e3-8da5-978ee88a2e73.jpeg)
+### Analytics
+![analytics](https://user-images.githubusercontent.com/94028247/206841945-717fcaec-14da-44ba-ab34-1a066b8a6d3e.jpeg)
+
