@@ -36,7 +36,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("Gagal Terverifikasi"));
+      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
     }
   }
 
@@ -50,7 +50,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("Gagal Terverifikasi"));
+      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
     }
   }
 
@@ -64,7 +64,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("Gagal Terverifikasi"));
+      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
     }
   }
 
@@ -78,7 +78,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("Gagal Terverifikasi"));
+      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
     }
   }
 
@@ -92,7 +92,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("Gagal Terverifikasi"));
+      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
     }
   }
   @override
@@ -105,7 +105,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed connect to network'));
     }on TlsException{
-      return const Left(SSLFailure("Gagal Terverifikasi"));
+      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
     }
 
   }
@@ -120,7 +120,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed connect to network'));
     }on TlsException{
-      return const Left(SSLFailure("Gagal Terverifikasi"));
+      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
     }
   }
   @override
