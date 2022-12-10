@@ -5,21 +5,21 @@ import 'package:dartz/dartz.dart';
 import 'package:rextor_movie/common/failure.dart';
 import 'package:rextor_movie/common/state_enum.dart';
 import 'package:rextor_movie/domain/usecases/movie/get_movie_watchlist_status.dart';
+import 'package:rextor_movie/domain/usecases/series/get_series_detail.dart';
 import 'package:rextor_movie/domain/usecases/series/get_series_recommendation.dart';
 import 'package:rextor_movie/domain/usecases/series/get_series_remove_series_watchlist.dart';
 import 'package:rextor_movie/domain/usecases/series/get_series_save_watchlist.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_event.dart';
-import 'package:rextor_movie/presentation/bloc/series/series_detail_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_state_management.dart';
 import '../../dummy_data/dummy_objects.dart';
-import 'series_detail_notifier.mocks.dart';
+import 'series_detail_mock.mocks.dart';
 
 @GenerateMocks([
-  DetailSeriesNotifier,
+  GetSeriesDetail,
   GetSeriesRecommendations,
   GetWatchListStatus,
   SaveWatchlistSeries,

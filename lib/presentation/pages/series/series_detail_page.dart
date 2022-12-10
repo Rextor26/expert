@@ -10,7 +10,6 @@ import 'package:rextor_movie/domain/entities/series/series_detail.dart';
 import 'package:rextor_movie/domain/usecases/series/get_series_remove_series_watchlist.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_event.dart';
-import 'package:rextor_movie/presentation/bloc/series/series_detail_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_state_management.dart';
