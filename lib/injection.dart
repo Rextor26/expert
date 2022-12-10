@@ -1,4 +1,4 @@
-import 'package:rextor_movie/common/ssl.dart';
+import 'package:http/http.dart' as http;
 import 'package:rextor_movie/data/datasources/db/movie_database_helper.dart';
 import 'package:rextor_movie/data/datasources/db/series_database_helper.dart';
 import 'package:rextor_movie/data/datasources/series_local_data_source.dart';
@@ -138,7 +138,7 @@ void init() {
 
   // external
 
-  locator.registerLazySingleton(() => SllPining.client);
+  locator.registerLazySingleton(() => http.Client());
   
 
 }
