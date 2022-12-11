@@ -29,10 +29,10 @@ import 'package:rextor_movie/injection.dart' as di;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await SllPining.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await SllPining.init();
   di.init();
   runApp(const MyApp());
 }
