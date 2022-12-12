@@ -5,7 +5,7 @@ import 'package:rextor_movie/domain/entities/movie/movie.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final tMovieModel = MovieModel(
+  final filmMovieModel = FilmMovie(
     adult: false,
     backdropPath: 'backdropPath',
     genreIds: [1, 2, 3],
@@ -38,7 +38,7 @@ void main() {
   );
 
   test('should be a subclass of Movie entity', () async {
-    final result = tMovieModel.toEntity();
+    final result = filmMovieModel.toEntity();
     expect(result, tMovie);
   });
 }

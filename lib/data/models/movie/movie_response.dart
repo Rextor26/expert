@@ -4,15 +4,15 @@ import 'package:rextor_movie/data/models/movie/movie_model.dart';
 import 'package:equatable/equatable.dart';
 
 class MovieResponse extends Equatable {
-  final List<MovieModel> movieList;
+  final List<FilmMovie> movieList;
 
   MovieResponse({required this.movieList});
 
   @override
   List<Object> get props => [movieList];
   factory MovieResponse.fromJson(Map<String, dynamic> json) => MovieResponse(
-        movieList: List<MovieModel>.from((json["results"] as List)
-            .map((x) => MovieModel.fromJson(x))
+        movieList: List<FilmMovie>.from((json["results"] as List)
+            .map((x) => FilmMovie.fromJson(x))
             .where((element) => element.posterPath != null)),
       );
 

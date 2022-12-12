@@ -9,7 +9,6 @@ const String BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
 class SeriesCard extends StatelessWidget {
   final Series series;
   const SeriesCard(this.series, {Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(

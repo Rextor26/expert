@@ -6,28 +6,28 @@ import 'package:rxdart/rxdart.dart';
 import '../../domain/usecases/movie/get_movie_search.dart';
 
 
-class SearchMovieBloc extends Bloc<SearchEvent, SearchStateMovie> {
-  final SearchMovies _searchMovies;
+class SearchMovieBloc extends Bloc<SearchEventState, SearchStateMovie> {
+  final SearchMovies searchMovie;
 
-  SearchMovieBloc(this._searchMovies) : super(SearchEmpty()) {
-    on<OnQueryChanged>((event, emit) async {
-      final query = event.query;
+  SearchMovieBloc(this.searchMovie) : super(SearchMovieEmpty()) {
+    on<QueryInput>((movieEvent, stateMovie) async {
+      final q = movieEvent.query;
 
-      emit(SearchLoading());
-      final result = await _searchMovies.execute(query);
+      stateMovie(SearchMovieLoading());
+      final bloc = await searchMovie.execute(q);
 
-      result.fold(
-        (failure) {
-          emit(SearchError(failure.message));
+      bloc.fold(
+        (fail) {
+          stateMovie(SearchMovieError(fail.message));
         },
-        (data) {
-          emit(SearchHasData(data));
+        (msg) {
+          stateMovie(SearchMovieHasData(msg));
         },
       );
-    }, transformer: debounce(const Duration(milliseconds: 500)));
+    }, transformer: timer(const Duration(milliseconds: 500)));
   }
 
-  EventTransformer<T> debounce<T>(Duration duration) {
-    return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
+  EventTransformer<T> timer<T>(Duration time) {
+    return (events, mapper) => events.debounceTime(time).flatMap(mapper);
   }
 }

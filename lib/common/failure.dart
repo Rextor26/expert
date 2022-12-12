@@ -25,6 +25,6 @@ class CacheFailure extends Failure {
   const CacheFailure(String message) : super(message);
 }
 
-class SSLFailure extends Failure {
-  const SSLFailure(String message) : super(message);
+class SecutitySLL extends Failure {
+  const SecutitySLL(String message) : super(message);
 }

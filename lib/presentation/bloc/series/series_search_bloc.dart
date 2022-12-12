@@ -8,7 +8,7 @@ class SearchSeriesBloc extends Bloc<SearchEventSeries, SearchStateSeries> {
   final SearchSeries _searchSeries;
 
   SearchSeriesBloc(this._searchSeries) : super(SearchEmptySeries()) {
-    on<OnQueryChangedSeries>((event, emit) async {
+    on<QueryInputSeries>((event, emit) async {
       final query = event.query;
 
       emit(SearchLoadingSeries());

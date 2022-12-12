@@ -7,18 +7,18 @@ import 'package:mockito/mockito.dart';
 import '../../../helpers/test_helper.mocks.dart';
 
 void main(){
-  late GetAiringTodaySeries getSeriesAiringToday;
+  late GetSeriesToday getSeriesAiringToday;
   late MockSeriesRepository mockSeriesRepository;
   setUp((){
     mockSeriesRepository = MockSeriesRepository();
-    getSeriesAiringToday = GetAiringTodaySeries(mockSeriesRepository);
+    getSeriesAiringToday = GetSeriesToday(mockSeriesRepository);
   });
 
   final series = <Series>[];
-  group('Get Airing Today Series Series', (){
-    test('should get list of Series Series from the repository', () async{
+  group('Get Airing Today series', (){
+    test('should get list of series from the repository', () async{
       ///arrange
-      when(mockSeriesRepository.getAiringTodaySeries()).thenAnswer((_) async=> Right(series));
+      when(mockSeriesRepository.getSeriesToday()).thenAnswer((_) async=> Right(series));
       ///act
       final result = await getSeriesAiringToday.execute();
       ///assert

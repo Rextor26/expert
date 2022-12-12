@@ -4,12 +4,12 @@ import 'package:rextor_movie/domain/repositories/series_repository.dart';
 import 'package:dartz/dartz.dart';
 
 
-class GetOnTheAirSeries{
+class GetSeriesOnAir{
   final RepositorySeries repository;
 
-  GetOnTheAirSeries(this.repository);
+  GetSeriesOnAir(this.repository);
   Future<Either<Failure, List<Series>>> execute(){
-    return repository.getOnTheAirSeries();
+    return repository.getSeriesOnAir();
   }
 
 }

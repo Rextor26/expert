@@ -7,10 +7,10 @@ abstract class SearchEventSeries extends Equatable {
   List<Object> get props => [];
 }
 
-class OnQueryChangedSeries extends SearchEventSeries {
+class QueryInputSeries extends SearchEventSeries {
   final String query;
 
-  const OnQueryChangedSeries(this.query);
+  const QueryInputSeries(this.query);
 
   @override
   List<Object> get props => [query];

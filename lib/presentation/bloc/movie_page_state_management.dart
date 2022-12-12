@@ -1,31 +1,31 @@
 import 'package:equatable/equatable.dart';
 import 'package:rextor_movie/domain/entities/movie/movie.dart';
 
-abstract class MovieState extends Equatable {
-  const MovieState();
+abstract class MovieStateManagementBloc extends Equatable {
+  const MovieStateManagementBloc();
 
   @override
   List<Object> get props => [];
 }
-
-class EmptyData extends MovieState {}
-
-class LoadingData extends MovieState {}
-
-class ErrorData extends MovieState {
+class ErrorDataMovie extends MovieStateManagementBloc {
   final String message;
 
-  const ErrorData(this.message);
+  const ErrorDataMovie(this.message);
 
   @override
   List<Object> get props => [message];
 }
 
-class LoadedData extends MovieState {
+class LoadedDataMovie extends MovieStateManagementBloc {
   final List<Movie> result;
 
-  const LoadedData(this.result);
+  const LoadedDataMovie(this.result);
 
   @override
   List<Object> get props => [result];
 }
+
+class EmptyDataMovie extends MovieStateManagementBloc {}
+
+class LoadingDataMovie extends MovieStateManagementBloc {}
+

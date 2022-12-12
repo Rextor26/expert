@@ -30,12 +30,22 @@ import 'package:rextor_movie/domain/usecases/series/get_series_remove_series_wat
 import 'package:rextor_movie/domain/usecases/series/get_series_save_watchlist.dart';
 import 'package:rextor_movie/domain/usecases/series/get_series_search.dart';
 import 'package:rextor_movie/presentation/bloc/movie_detail_page_bloc.dart';
-import 'package:rextor_movie/presentation/bloc/movie_page_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/movie_now_playing_bloc.dart.dart';
+import 'package:rextor_movie/presentation/bloc/movie_popular_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/movie_recomendation_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/movie_top_rated_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/movie_watchlist_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/search_page_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_recomendation_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_search_bloc.dart';
-import 'package:rextor_movie/presentation/bloc/series/series_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_popular_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_today_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_top_rated_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_watchlist_bloc.dart';
+
+import 'presentation/bloc/series/series_on_air.dart';
 
 final locator = GetIt.instance;
 
@@ -45,10 +55,10 @@ void init() {
     () => MovieBloc(locator()),
   );
   locator.registerFactory(
-    () => MovieDetailBloc(getMovieDetail: locator(), getWatchListStatus: locator(), saveWatchlist: locator(), removeWatchlist: locator())
+    () => GetDetaiMovieBloc(getMovieDetail: locator(), getWatchListStatus: locator(), saveWatchlist: locator(), removeWatchlist: locator())
   );
   locator.registerFactory(
-    () => RecommendationMoviesBloc(locator())
+    () => RecBlocMovie(locator())
   );
   locator.registerFactory(
     () => PopularMovieBloc(locator())
@@ -75,8 +85,8 @@ void init() {
   locator.registerFactory(() => SeriesTodayBloc(locator()));
   locator.registerFactory(() => SeriesOnAirBloc(locator()));
   locator.registerFactory(() => WatchlistSeriesBloc(locator()));
-  locator.registerFactory(() => RecommendationTvseriesBloc(locator()));
-  locator.registerFactory(() => SeriesDetailBloc(getTvseriesDetail: locator(), getWatchListStatus: locator(), saveWatchlist: locator(), removeWatchlist: locator()));
+  locator.registerFactory(() => SeriesRecomendationBloc(locator()));
+  locator.registerFactory(() => SeriesDetailBloc(seriesDetailbloc: locator(), getSeriesWatchListStatus: locator(), saveWatchlist: locator(), removeWatchlist: locator()));
 
   
 
@@ -87,19 +97,19 @@ void init() {
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
   locator.registerLazySingleton(() => GetPopularMovies(locator()));
   locator.registerLazySingleton(() => GetTopRatedMovies(locator()));
-  locator.registerLazySingleton(() => GetMovieDetail(locator()));
+  locator.registerLazySingleton(() => GetMovieDetailState(locator()));
   locator.registerLazySingleton(() => GetMovieRecommendations(locator()));
   locator.registerLazySingleton(() => SearchMovies(locator()));
   locator.registerLazySingleton(() => GetWatchListStatus(locator()));
-  locator.registerLazySingleton(() => SaveWatchlist(locator()));
+  locator.registerLazySingleton(() => SaveWatchlistMovie(locator()));
   locator.registerLazySingleton(() => RemovedWatchlist(locator()));
   locator.registerLazySingleton(() => GetWatchlistMovies(locator()));
 
   
 
   ///use case series
-  locator.registerLazySingleton(() => GetAiringTodaySeries(locator()));
-  locator.registerLazySingleton(() => GetOnTheAirSeries(locator()));
+  locator.registerLazySingleton(() => GetSeriesToday(locator()));
+  locator.registerLazySingleton(() => GetSeriesOnAir(locator()));
   locator.registerLazySingleton(() => GetSeriesDetail(locator()));
   locator.registerLazySingleton(() => GetPopularSeries(locator()));
   locator.registerLazySingleton(() => GetTopRatedSeries(locator()));
@@ -133,12 +143,12 @@ void init() {
       () => SeriesLocalDataSourceImpl(databaseHelperSeries: locator()));
 
   // helper
-  locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
+  locator.registerLazySingleton<DatabaseMovieHelper>(() => DatabaseMovieHelper());
   locator.registerLazySingleton<DatabaseSeriesHelper>(() => DatabaseSeriesHelper());
 
   // external
 
-  locator.registerLazySingleton(() => SllPining.client);
+  locator.registerLazySingleton(() => SecurityPiningSLL.client);
   
 
 }

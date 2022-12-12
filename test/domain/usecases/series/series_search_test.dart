@@ -20,7 +20,7 @@ void main() {
   final series = <Series>[];
   final tQuery = 'Game Of Throne';
 
-  test('should get list of Series Series from the repository', () async {
+  test('should get list of series from the repository', () async {
     // arrange
     when(mockSeriesRepository.searchSeries(tQuery))
         .thenAnswer((_) async => Right(series));

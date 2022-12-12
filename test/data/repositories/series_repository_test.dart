@@ -112,8 +112,8 @@ void main(){
 
   });
 
-  group('Popular Series Series', (){
-    test('should return list Series series when call to data source is success', () async{
+  group('Popular Series', (){
+    test('should return list series when call to data source is success', () async{
       when(mockRemoteDataSource.getPopularSeries()).thenAnswer((_) async => seriesModelList);
       final result = await seriesRepository.getPopularSeries();
       final resultList = result.getOrElse(() => []);
@@ -143,8 +143,8 @@ void main(){
     });
   });
 
-  group('Top Rated Series Series', (){
-    test('should return list Series series when call to data source is success', () async{
+  group('Top Rated Series', (){
+    test('should return list series when call to data source is success', () async{
       when(mockRemoteDataSource.getTopRatedSeries()).thenAnswer((_) async => seriesModelList);
       final result = await seriesRepository.getTopRatedSeries();
       final resultList = result.getOrElse(() => []);
@@ -174,17 +174,17 @@ void main(){
     });
   });
 
-  group('Airing Today Series Series', (){
-    test('should return list Series series when call to data source is success', () async{
-      when(mockRemoteDataSource.getAiringTodaySeries()).thenAnswer((_) async => seriesModelList);
-      final result = await seriesRepository.getAiringTodaySeries();
+  group('Airing Today Series', (){
+    test('should return list series when call to data source is success', () async{
+      when(mockRemoteDataSource.getSeriesToday()).thenAnswer((_) async => seriesModelList);
+      final result = await seriesRepository.getSeriesToday();
       final resultList = result.getOrElse(() => []);
       expect(resultList, seriesList);
     });
 
     test('should return server failure when call to data source is unsuccessful', () async{
-      when(mockRemoteDataSource.getAiringTodaySeries()).thenThrow(ServerException());
-      final result = await seriesRepository.getAiringTodaySeries();
+      when(mockRemoteDataSource.getSeriesToday()).thenThrow(ServerException());
+      final result = await seriesRepository.getSeriesToday();
       expect(result, Left(ServerFailure('')));
     });
 
@@ -192,12 +192,12 @@ void main(){
         'should return connection failure when the device is not connected to the internet',
         () async {
       // arrange
-      when(mockRemoteDataSource.getAiringTodaySeries())
+      when(mockRemoteDataSource.getSeriesToday())
           .thenThrow(const SocketException('Failed to connect the network'));
       // act
-      final result = await seriesRepository.getAiringTodaySeries();
+      final result = await seriesRepository.getSeriesToday();
       // assert
-      verify(mockRemoteDataSource.getAiringTodaySeries());
+      verify(mockRemoteDataSource.getSeriesToday());
       expect( 
         result, 
         Left(ConnectionFailure('Failed to connect the network'))
@@ -205,17 +205,17 @@ void main(){
     });
   });
 
-  group('On The Air Series Series', (){
-    test('should return list Series series  when call to data source is success', () async{
-      when(mockRemoteDataSource.getOnTheAirSeries()).thenAnswer((_) async => seriesModelList);
-      final result = await seriesRepository.getOnTheAirSeries();
+  group('On The Air Series', (){
+    test('should return list series  when call to data source is success', () async{
+      when(mockRemoteDataSource.getSeriesOnAir()).thenAnswer((_) async => seriesModelList);
+      final result = await seriesRepository.getSeriesOnAir();
       final resultList = result.getOrElse(() => []);
       expect(resultList, seriesList);
     });
 
     test('should return server failure when call to data source is unsuccessful', () async{
-      when(mockRemoteDataSource.getOnTheAirSeries()).thenThrow(ServerException());
-      final result = await seriesRepository.getOnTheAirSeries();
+      when(mockRemoteDataSource.getSeriesOnAir()).thenThrow(ServerException());
+      final result = await seriesRepository.getSeriesOnAir();
       expect(result, Left(ServerFailure('')));
     });
 
@@ -223,12 +223,12 @@ void main(){
         'should return connection failure when the device is not connected to the internet',
         () async {
       // arrange
-      when(mockRemoteDataSource.getOnTheAirSeries())
+      when(mockRemoteDataSource.getSeriesOnAir())
           .thenThrow(const SocketException('Failed to connect the network'));
       // act
-      final result = await seriesRepository.getOnTheAirSeries();
+      final result = await seriesRepository.getSeriesOnAir();
       // assert
-      verify(mockRemoteDataSource.getOnTheAirSeries());
+      verify(mockRemoteDataSource.getSeriesOnAir());
       expect( 
         result, 
         Left(ConnectionFailure('Failed to connect the network'))
@@ -236,10 +236,10 @@ void main(){
     });
   });
 
-  group('Search Series Series', (){
+  group('Search Series', (){
     final tQuery = 'pasion';
 
-    test('should return list Series series  when call to data source is success', () async{
+    test('should return list series  when call to data source is success', () async{
       when(mockRemoteDataSource.searchSeries(tQuery)).thenAnswer((_) async => seriesModelList);      
       final result = await seriesRepository.searchSeries(tQuery);      
       final resultList = result.getOrElse(() => []);
@@ -267,7 +267,7 @@ void main(){
 
   });
 
-  group('Save watchlist Series Series', (){
+  group('Save watchlist series', (){
 
     test('should return success message when saving successful', () async{
       when(mockSeriesLocalDataSource.insertSeriesWatchlist(testSeriesTable)).thenAnswer((_) async => "Added to watchlist");
@@ -276,13 +276,13 @@ void main(){
     });
 
     test('should return database failure when saving unsuccessful', () async{
-      when(mockSeriesLocalDataSource.insertSeriesWatchlist(testSeriesTable)).thenThrow(DatabaseException('Failed to add watchlist'));
+      when(mockSeriesLocalDataSource.insertSeriesWatchlist(testSeriesTable)).thenThrow(DataBaseDb('Failed to add watchlist'));
       final result = await seriesRepository.saveWatchlistSeries(testSeriesDetail);
       expect(result, Left(DatabaseFailure('Failed to add watchlist')));
     });
   });
 
-  group('Remove watchlist Series Series', (){
+  group('Remove watchlist series', (){
 
     test('should return success message when remove successful', () async{
       when(mockSeriesLocalDataSource.removeWatchlistSeries(testSeriesTable)).thenAnswer((_) async => "Removed from watchlist");
@@ -291,13 +291,13 @@ void main(){
     });
 
     test('should return database failure when saving unsuccessful', () async{
-      when(mockSeriesLocalDataSource.removeWatchlistSeries(testSeriesTable)).thenThrow(DatabaseException('Failed to remove watchlist'));
+      when(mockSeriesLocalDataSource.removeWatchlistSeries(testSeriesTable)).thenThrow(DataBaseDb('Failed to remove watchlist'));
       final result = await seriesRepository.removeWatchlistSeries(testSeriesDetail);
       expect(result, Left(DatabaseFailure('Failed to remove watchlist')));
     });
   });
 
-  group('get watchlist status Series Series', (){
+  group('get watchlist status series', (){
     test('should return watch status weather data is found', () async{
       final tId = 1;
       when(mockSeriesLocalDataSource.getSeriesById(tId)).thenAnswer((_) async => null);
@@ -306,7 +306,7 @@ void main(){
     });
   });
 
-  group('Get watchlist Series Series', (){
+  group('Get watchlist series', (){
     test('should return list of movies', () async{
       when(mockSeriesLocalDataSource.getWatchlistSeries()).thenAnswer((_) async => [testSeriesTable]);
       final result = await seriesRepository.getWatchlistSeries();
@@ -315,7 +315,7 @@ void main(){
     });
   });
 
-  group('Get Series Series Detail', () {
+  group('Get series Detail', () {
     final tId = 1;
     final responseSeries = SeriesDetailResponse(
       adult: false,
@@ -346,7 +346,7 @@ void main(){
     );
 
     test(
-        'should return Series series data when the call to remote data source is successful',
+        'should return series data when the call to remote data source is successful',
         () async {
       // arrange
       when(mockRemoteDataSource.getSeriesDetail(tId))

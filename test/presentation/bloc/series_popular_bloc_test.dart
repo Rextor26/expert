@@ -6,7 +6,7 @@ import 'package:rextor_movie/presentation/bloc/series/series_even.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rextor_movie/presentation/bloc/series/series_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_popular_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_state_management.dart';
 import '../../dummy_data/dummy_objects.dart';
 import 'series_list_bloc.mocks.dart';
@@ -34,7 +34,7 @@ void main() {
           .thenAnswer((_) async => Right(testSeriesList));
       return notifier;
     },
-    act: (bloc) => bloc.add(const FetchTvseriesData()),
+    act: (bloc) => bloc.add(const GetDataSeries()),
     expect: () => [
       LoadingDataSeries(),
       LoadedDataSeries(testSeriesList),
@@ -51,7 +51,7 @@ void main() {
           (_) async => const Left(DatabaseFailure('Database Failure')));
       return notifier;
     },
-    act: (bloc) => bloc.add(const FetchTvseriesData()),
+    act: (bloc) => bloc.add(const GetDataSeries()),
     expect: () => [
       LoadingDataSeries(),
       const ErrorDataSeries('Database Failure'),

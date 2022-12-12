@@ -8,7 +8,7 @@ import '../../bloc/search_page_bloc.dart';
 import '../../bloc/search_page_event.dart';
 import '../../bloc/search_page_state_management.dart';
 
-class MovieSearchPage extends StatelessWidget {
+class SearchPageMovie extends StatelessWidget {
   static const initial_route = 'search_movie';
 
   @override
@@ -24,7 +24,7 @@ class MovieSearchPage extends StatelessWidget {
           children: [
              TextField(
               onChanged: (query) {
-                context.read<SearchMovieBloc>().add(OnQueryChanged(query));
+                context.read<SearchMovieBloc>().add(QueryInput(query));
               },
               decoration: const InputDecoration(
                 hintText: 'Search title movie',
@@ -40,11 +40,11 @@ class MovieSearchPage extends StatelessWidget {
             ),
            BlocBuilder<SearchMovieBloc, SearchStateMovie>(
               builder: (context, state) {
-                if (state is SearchLoading) {
+                if (state is SearchMovieLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is SearchHasData) {
+                } else if (state is SearchMovieHasData) {
                   final result = state.result;
                   return Expanded(
                     child: ListView.builder(
@@ -56,7 +56,7 @@ class MovieSearchPage extends StatelessWidget {
                       itemCount: result.length,
                     ),
                   );
-                } else if (state is SearchError) {
+                } else if (state is SearchMovieError) {
                   return Expanded(
                     child: Center(
                       child: Text(state.message),

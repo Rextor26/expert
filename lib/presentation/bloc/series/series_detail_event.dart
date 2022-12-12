@@ -33,9 +33,9 @@ class RemoveSeriesWatchlist extends SeriesDetailEvent {
   List<Object> get props => [seriesDetail];
 }
 
-class LoadWatchlistStatus extends SeriesDetailEvent {
+class WaitingWatchlistStatus extends SeriesDetailEvent {
   final int id;
-  const LoadWatchlistStatus(this.id);
+  const WaitingWatchlistStatus(this.id);
 
   @override
   List<Object> get props => [id];

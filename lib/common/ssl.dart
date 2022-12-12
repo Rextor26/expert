@@ -1,13 +1,12 @@
-
 import 'package:http/http.dart' as http;
 import 'package:rextor_movie/common/sharing.dart';
 
-class SllPining {
-  static Future<http.Client> get _instance async =>
-      _clientInstance ??= await SharingSsl.createLEClient();
-  static http.Client? _clientInstance;
-  static http.Client get client => _clientInstance ?? http.Client();
+class SecurityPiningSLL {
+  static http.Client? serverRepoClient;
+  static Future<http.Client> get repo async =>
+      serverRepoClient ??= await SharingSsl.createLEClient(); 
+  static http.Client get client => serverRepoClient ?? http.Client();
   static Future<void> init() async {
-    _clientInstance = await _instance;
+    serverRepoClient = await repo;
   }
 }

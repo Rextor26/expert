@@ -4,7 +4,6 @@ import 'package:rextor_movie/common/exception.dart';
 import 'package:rextor_movie/data/datasources/movie_local_data_source.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 import '../../dummy_data/dummy_objects.dart';
 import '../../helpers/test_helper.mocks.dart';
 
@@ -29,7 +28,7 @@ void main() {
       expect(result, 'Added to Watchlist');
     });
 
-    test('should throw DatabaseException when insert to database is failed',
+    test('should throw DataBaseDb when insert to database is failed',
         () async {
       // arrange
       when(mockDatabaseHelper.insertWatchlist(testMovieTable))
@@ -37,7 +36,7 @@ void main() {
       // act
       final call = dataSource.insertWatchlist(testMovieTable);
       // assert
-      expect(() => call, throwsA(isA<DatabaseException>()));
+      expect(() => call, throwsA(isA<DataBaseDb>()));
     });
   });
 
@@ -53,7 +52,7 @@ void main() {
       expect(result, 'Removed from Watchlist');
     });
 
-    test('should throw DatabaseException when remove from database is failed',
+    test('should throw DataBaseDb when remove from database is failed',
         () async {
       // arrange
       when(mockDatabaseHelper.removeWatchlist(testMovieTable))
@@ -61,7 +60,7 @@ void main() {
       // act
       final call = dataSource.removeWatchlist(testMovieTable);
       // assert
-      expect(() => call, throwsA(isA<DatabaseException>()));
+      expect(() => call, throwsA(isA<DataBaseDb>()));
     });
   });
 

@@ -4,13 +4,13 @@ import 'dart:async';
 import 'package:rextor_movie/data/models/movie/movie_table.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHelper {
-  static DatabaseHelper? _databaseHelper;
-  DatabaseHelper._instance() {
+class DatabaseMovieHelper {
+  static DatabaseMovieHelper? _databaseHelper;
+  DatabaseMovieHelper._instance() {
     _databaseHelper = this;
   }
 
-  factory DatabaseHelper() => _databaseHelper ?? DatabaseHelper._instance();
+  factory DatabaseMovieHelper() => _databaseHelper ?? DatabaseMovieHelper._instance();
 
   static Database? _database;
 

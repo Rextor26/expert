@@ -17,7 +17,7 @@ void main() {
 
   final series = <Series>[];
 
-  test('should get list of Series Series from repository', () async {
+  test('should get list of series from repository', () async {
     // arrange
     when(mockSeriesRepository.getTopRatedSeries())
         .thenAnswer((_) async => Right(series));

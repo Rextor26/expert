@@ -21,7 +21,7 @@ class SeriesLocalDataSourceImpl implements SeriesLocalDataSource{
       await databaseHelperSeries.insertSeriesWatchlist(seriesTable);
       return 'Added to watchlist';
     }catch (e){
-      throw DatabaseException(e.toString());
+      throw DataBaseDb(e.toString());
     }
   }
 
@@ -48,7 +48,7 @@ class SeriesLocalDataSourceImpl implements SeriesLocalDataSource{
       await databaseHelperSeries.removeWatchList(seriesTable);
       return 'Remove from watchlist';
     }catch(e){
-      throw DatabaseException(e.toString());
+      throw DataBaseDb(e.toString());
     }
   }
 

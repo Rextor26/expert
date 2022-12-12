@@ -31,7 +31,7 @@ class MovieRepositoryImpl implements MovieRepository {
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     } on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
 
@@ -45,7 +45,7 @@ class MovieRepositoryImpl implements MovieRepository {
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
   @override
@@ -58,7 +58,7 @@ class MovieRepositoryImpl implements MovieRepository {
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
 
@@ -72,7 +72,7 @@ class MovieRepositoryImpl implements MovieRepository {
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
 
@@ -86,7 +86,7 @@ class MovieRepositoryImpl implements MovieRepository {
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
 
@@ -102,7 +102,7 @@ class MovieRepositoryImpl implements MovieRepository {
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
 
@@ -112,7 +112,7 @@ class MovieRepositoryImpl implements MovieRepository {
       final result =
           await localDataSource.insertWatchlist(MovieTable.fromEntity(movie));
       return Right(result);
-    } on DatabaseException catch (e) {
+    } on DataBaseDb catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       throw e;
@@ -125,7 +125,7 @@ class MovieRepositoryImpl implements MovieRepository {
       final result =
           await localDataSource.removeWatchlist(MovieTable.fromEntity(movie));
       return Right(result);
-    } on DatabaseException catch (e) {
+    } on DataBaseDb catch (e) {
       return Left(DatabaseFailure(e.message));
     }
   }

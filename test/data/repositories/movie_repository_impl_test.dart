@@ -30,7 +30,7 @@ void main() {
     );
   });
 
-  final tMovieModel = MovieModel(
+  final filmMovieModel = FilmMovie(
     adult: false,
     backdropPath: '/muth4OYamXf41G2evdrLEg8d3om.jpg',
     genreIds: [14, 28],
@@ -64,7 +64,7 @@ void main() {
     voteCount: 13507,
   );
 
-  final tMovieModelList = <MovieModel>[tMovieModel];
+  final filmMovieModelList = <FilmMovie>[filmMovieModel];
   final tMovieList = <Movie>[tMovie];
 
   group('Now Playing Movies', () {
@@ -73,7 +73,7 @@ void main() {
         () async {
       // arrange
       when(mockRemoteDataSource.getNowPlayingMovies())
-          .thenAnswer((_) async => tMovieModelList);
+          .thenAnswer((_) async => filmMovieModelList);
       // act
       final result = await repository.getNowPlayingMovies();
       // assert
@@ -116,7 +116,7 @@ void main() {
         () async {
       // arrange
       when(mockRemoteDataSource.getPopularMovies())
-          .thenAnswer((_) async => tMovieModelList);
+          .thenAnswer((_) async => filmMovieModelList);
       // act
       final result = await repository.getPopularMovies();
       // assert
@@ -156,7 +156,7 @@ void main() {
         () async {
       // arrange
       when(mockRemoteDataSource.getTopRatedMovies())
-          .thenAnswer((_) async => tMovieModelList);
+          .thenAnswer((_) async => filmMovieModelList);
       // act
       final result = await repository.getTopRatedMovies();
       // assert
@@ -258,7 +258,7 @@ void main() {
   });
 
   group('Get Movie Recommendations', () {
-    final tMovieList = <MovieModel>[];
+    final tMovieList = <FilmMovie>[];
     final tId = 1;
 
     test('should return data (movie list) when the call is successful',
@@ -310,7 +310,7 @@ void main() {
         () async {
       // arrange
       when(mockRemoteDataSource.searchMovies(tQuery))
-          .thenAnswer((_) async => tMovieModelList);
+          .thenAnswer((_) async => filmMovieModelList);
       // act
       final result = await repository.searchMovies(tQuery);
       // assert
@@ -358,7 +358,7 @@ void main() {
     test('should return DatabaseFailure when saving unsuccessful', () async {
       // arrange
       when(mockLocalDataSource.insertWatchlist(testMovieTable))
-          .thenThrow(DatabaseException('Failed to add watchlist'));
+          .thenThrow(DataBaseDb('Failed to add watchlist'));
       // act
       final result = await repository.saveWatchlist(testMovieDetail);
       // assert
@@ -380,7 +380,7 @@ void main() {
     test('should return DatabaseFailure when remove unsuccessful', () async {
       // arrange
       when(mockLocalDataSource.removeWatchlist(testMovieTable))
-          .thenThrow(DatabaseException('Failed to remove watchlist'));
+          .thenThrow(DataBaseDb('Failed to remove watchlist'));
       // act
       final result = await repository.removeWatchlist(testMovieDetail);
       // assert

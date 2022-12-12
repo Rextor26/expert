@@ -1,19 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-abstract class MovieEvent extends Equatable {
-  const MovieEvent();
+abstract class MovieBlocEvent extends Equatable {
+  const MovieBlocEvent();
 }
-
-class FetchMoviesData extends MovieEvent {
-  const FetchMoviesData();
-
-  @override
-  List<Object> get props => [];
-}
-
-class FetchMovieDataWithId extends MovieEvent {
+class GetDataMovieById extends MovieBlocEvent {
   final int id;
-  const FetchMovieDataWithId(this.id);
+  const GetDataMovieById(this.id);
 
   @override
   List<Object> get props => [id];

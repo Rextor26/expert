@@ -3,7 +3,7 @@
 import 'package:rextor_movie/domain/entities/movie/movie.dart';
 import 'package:equatable/equatable.dart';
 
-class MovieModel extends Equatable {
+class FilmMovie extends Equatable {
   final bool adult;
   final String? backdropPath;
   final List<int> genreIds;
@@ -17,7 +17,7 @@ class MovieModel extends Equatable {
   final bool video;
   final double voteAverage;
   final int voteCount;
-  MovieModel({
+  FilmMovie({
     required this.adult,
     required this.backdropPath,
     required this.genreIds,
@@ -33,7 +33,23 @@ class MovieModel extends Equatable {
     required this.voteCount,
   });
 
-
+  Movie toEntity() {
+    return Movie(
+      adult: this.adult,
+      backdropPath: this.backdropPath,
+      genreIds: this.genreIds,
+      id: this.id,
+      originalTitle: this.originalTitle,
+      overview: this.overview,
+      popularity: this.popularity,
+      posterPath: this.posterPath,
+      releaseDate: this.releaseDate,
+      title: this.title,
+      video: this.video,
+      voteAverage: this.voteAverage,
+      voteCount: this.voteCount,
+    );
+  }
   @override
   List<Object?> get props => [
         adult,
@@ -51,7 +67,7 @@ class MovieModel extends Equatable {
         voteCount,
       ];
 
-  factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
+  factory FilmMovie.fromJson(Map<String, dynamic> json) => FilmMovie(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
@@ -83,22 +99,6 @@ class MovieModel extends Equatable {
         "vote_count": voteCount,
       };
 
-  Movie toEntity() {
-    return Movie(
-      adult: this.adult,
-      backdropPath: this.backdropPath,
-      genreIds: this.genreIds,
-      id: this.id,
-      originalTitle: this.originalTitle,
-      overview: this.overview,
-      popularity: this.popularity,
-      posterPath: this.posterPath,
-      releaseDate: this.releaseDate,
-      title: this.title,
-      video: this.video,
-      voteAverage: this.voteAverage,
-      voteCount: this.voteCount,
-    );
-  }
+
 
 }

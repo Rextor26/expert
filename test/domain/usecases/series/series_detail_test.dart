@@ -19,7 +19,7 @@ void main() {
 
   final tId = 1;
 
-  test('should get Series series detail from the repository', () async {
+  test('should get series detail from the repository', () async {
     // arrange
     when(mockSeriesRepository.getSeriesDetail(tId))
         .thenAnswer((_) async => Right(testSeriesDetail));

@@ -14,8 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_state_management.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_even.dart';
-import 'package:rextor_movie/presentation/bloc/series/series_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_popular_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_state_management.dart';
+import '../../bloc/series/series_recomendation_bloc.dart';
 
 class SeriesDetailPage extends StatefulWidget {
   static const initial_route = '/detai_Series';
@@ -30,14 +31,12 @@ class _SeriesDetailPageState extends State<SeriesDetailPage> {
   @override
   void initState() {
     super.initState();
-   Future.microtask(() {
+    Future.microtask(() {
       context
-          .read<RecommendationTvseriesBloc>()
-          .add(FetchTvseriesDataWithId(widget.id));
-      context
-          .read<SeriesDetailBloc>()
-          .add(FetchSeriesDetailById(widget.id));
-      context.read<SeriesDetailBloc>().add(LoadWatchlistStatus(widget.id));
+          .read<SeriesRecomendationBloc>()
+          .add(GetDataSeriesWithId(widget.id));
+      context.read<SeriesDetailBloc>().add(FetchSeriesDetailById(widget.id));
+      context.read<SeriesDetailBloc>().add(WaitingWatchlistStatus(widget.id));
     });
   }
 
@@ -47,9 +46,9 @@ class _SeriesDetailPageState extends State<SeriesDetailPage> {
       body: BlocConsumer<SeriesDetailBloc, SeriesDetailState>(
         listener: (context, state) async {
           if (state.watchlistMessage ==
-                  SeriesDetailBloc.watchlistAddSuccessMessage ||
+                  SeriesDetailBloc.insertWatchListSucces ||
               state.watchlistMessage ==
-                  SeriesDetailBloc.watchlistRemoveSuccessMessage) {
+                  SeriesDetailBloc.removeWatchlistSucces) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.watchlistMessage),
               duration: const Duration(seconds: 1),
@@ -93,6 +92,16 @@ class _SeriesDetailPageState extends State<SeriesDetailPage> {
 }
 
 class DetailsSeries_Page extends StatelessWidget {
+  String genreFilm(List<Genre> genres) {
+    String result = '';
+    for (var genre in genres) {
+      result += genre.name + ', ';
+    }
+    if (result.isEmpty) {
+      return result;
+    }
+    return result.substring(0, result.length - 2);
+  }
   final SeriesDetail seriesDetail;
   final bool isAddedWatchlistSeries;
   const DetailsSeries_Page(this.seriesDetail, this.isAddedWatchlistSeries);
@@ -129,42 +138,39 @@ class DetailsSeries_Page extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                             Center(
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            'https://image.tmdb.org/t/p/w500${seriesDetail.posterPath}',
-                                        width: 90,
-                                        placeholder: (context, url) =>
-                                            const Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                      ),
-                                    ),
-                            Center(child: Text(seriesDetail.name, style: const TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.bold),)),
-                             Center(child: Text(_showGenres(seriesDetail.genres))),
+                            Center(
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    'https://image.tmdb.org/t/p/w500${seriesDetail.posterPath}',
+                                width: 90,
+                                placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ),
+                            Center(
+                                child: Text(
+                              seriesDetail.name,
+                              style: const TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            )),
+                            Center(child: Text(genreFilm(seriesDetail.genres))),
                             Center(
                               child: ElevatedButton(
-                                 style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  const Color.fromARGB(
-                                                      255, 0, 11, 71),
-                                            ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 0, 11, 71),
+                                  ),
                                   onPressed: () async {
                                     if (!isAddedWatchlistSeries) {
-                                      context
-                                      .read<SeriesDetailBloc>()
-                                      .add(AddWatchlistSeries(seriesDetail));
+                                      context.read<SeriesDetailBloc>().add(
+                                          AddWatchlistSeries(seriesDetail));
                                     } else {
-                                      context
-                                      .read<SeriesDetailBloc>()
-                                      .add(RemoveSeriesWatchlist(seriesDetail));
+                                      context.read<SeriesDetailBloc>().add(
+                                          RemoveSeriesWatchlist(seriesDetail));
                                     }
-                                   
-                                    
                                   },
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -176,28 +182,24 @@ class DetailsSeries_Page extends StatelessWidget {
                                     ],
                                   )),
                             ),
-                           
-                                                                Container(
-                                      margin: const EdgeInsets.only(bottom: 10),
-                                      child: const Text(
-                                        "Rating",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: const Text(
+                                "Rating",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
                             Row(
                               children: [
                                 RatingBarIndicator(
                                   rating: seriesDetail.voteAverage / 2,
                                   itemCount: 5,
                                   itemBuilder: (context, index) => const Icon(
-                                    Icons.star,
-                                    color: Colors.yellow
-                                  ),
+                                      Icons.star,
+                                      color: Colors.yellow),
                                   itemSize: 24,
                                 ),
-                                
                                 Text('${seriesDetail.voteAverage}')
                               ],
                             ),
@@ -207,9 +209,7 @@ class DetailsSeries_Page extends StatelessWidget {
                             const Text(
                               'Overview',
                               style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             Text(seriesDetail.overview),
                             const SizedBox(
@@ -217,22 +217,17 @@ class DetailsSeries_Page extends StatelessWidget {
                             ),
                             const Text(
                               'Seasons',
-                            style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             _showSeason(context, seriesDetail.seasons),
                             const Text(
                               'Recommendations',
                               style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                             BlocBuilder<RecommendationTvseriesBloc,
-                                SeriesStateManagement>
-                            (
+                            BlocBuilder<SeriesRecomendationBloc,
+                                SeriesStateManagement>(
                               builder: (context, state) {
                                 if (state is LoadingDataSeries) {
                                   return const Center(
@@ -250,11 +245,11 @@ class DetailsSeries_Page extends StatelessWidget {
                                           padding: const EdgeInsets.all(4.0),
                                           child: InkWell(
                                             onTap: () {
-                                                 Navigator.pushReplacementNamed(
+                                              Navigator.pushReplacementNamed(
                                                   context,
-                                                  SeriesDetailPage.initial_route,
-                                                  arguments:tvseries.id);
-                                             
+                                                  SeriesDetailPage
+                                                      .initial_route,
+                                                  arguments: tvseries.id);
                                             },
                                             child: ClipRRect(
                                               borderRadius:
@@ -334,42 +329,22 @@ class DetailsSeries_Page extends StatelessWidget {
               itemCount: season.length,
               itemBuilder: (context, index) {
                 return Container(
-                                                  margin: const EdgeInsets.only(
-                                                      left: 7),
-                                                  child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            const Color
-                                                                    .fromARGB(
-                                                                255, 0, 11, 71),
-                                                      ),
-                                                      onPressed: () {},
-                                                      child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text(
-                                                              season[index]
-                                                              .name)
-                                                        ],
-                                                      )),
-                                                );
+                  margin: const EdgeInsets.only(left: 7),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 0, 11, 71),
+                      ),
+                      onPressed: () {},
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [Text(season[index].name)],
+                      )),
+                );
               }),
         )
       ],
     );
   }
 
-  String _showGenres(List<Genre> genres) {
-    String result = '';
-    for (var genre in genres) {
-      result += genre.name + ', ';
-    }
-    if (result.isEmpty) {
-      return result;
-    }
-    return result.substring(0, result.length - 2);
-  }
+
 }

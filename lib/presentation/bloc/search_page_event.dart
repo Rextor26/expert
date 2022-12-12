@@ -1,14 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-abstract class SearchEvent extends Equatable {
-  const SearchEvent();
+abstract class SearchEventState extends Equatable {
+  const SearchEventState();
 }
 
-class OnQueryChanged extends SearchEvent {
+class QueryInput extends SearchEventState {
   final String query;
-
-  const OnQueryChanged(this.query);
-
+  const QueryInput(this.query);
   @override
   List<Object> get props => [query];
 }

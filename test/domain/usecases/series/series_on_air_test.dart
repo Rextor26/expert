@@ -7,20 +7,20 @@ import 'package:mockito/mockito.dart';
 import '../../../helpers/test_helper.mocks.dart';
 
 void main() {
-  late GetOnTheAirSeries usecase;
+  late GetSeriesOnAir usecase;
   late MockSeriesRepository mockSeriesRepository;
 
   setUp(() {
     mockSeriesRepository = MockSeriesRepository();
-    usecase = GetOnTheAirSeries(mockSeriesRepository);
+    usecase = GetSeriesOnAir(mockSeriesRepository);
   });
 
   final series = <Series>[];
 
-  group('Get On The Air Series Series', (){
-    test('should get list of Series Series from the repository', () async {
+  group('Get On The Air series', (){
+    test('should get list of series from the repository', () async {
     // arrange
-      when(mockSeriesRepository.getOnTheAirSeries())
+      when(mockSeriesRepository.getSeriesOnAir())
           .thenAnswer((_) async => Right(series));
       // act
       final result = await usecase.execute();

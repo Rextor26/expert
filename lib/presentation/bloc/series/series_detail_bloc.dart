@@ -10,26 +10,26 @@ import 'package:rextor_movie/presentation/bloc/series/series_detail_state_manage
 
 
 class SeriesDetailBloc
-    extends Bloc<SeriesDetailEvent, SeriesDetailState> {
-  final GetSeriesDetail getTvseriesDetail;
-  final GetWatchlistStatusSeries getWatchListStatus;
+  extends Bloc<SeriesDetailEvent, SeriesDetailState> {
+  final GetSeriesDetail seriesDetailbloc;
+  final GetWatchlistStatusSeries getSeriesWatchListStatus;
   final SaveWatchlistSeries saveWatchlist;
   final RemoveWatchlistSeries removeWatchlist;
 
-  static const watchlistAddSuccessMessage = 'Added to Watchlist';
-  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
+  static const insertWatchListSucces = 'Added to Watchlist';
+  static const removeWatchlistSucces = 'Removed from Watchlist';
 
   SeriesDetailBloc({
-    required this.getTvseriesDetail,
-    required this.getWatchListStatus,
+    required this.seriesDetailbloc,
+    required this.getSeriesWatchListStatus,
     required this.saveWatchlist,
     required this.removeWatchlist,
   }) : super(SeriesDetailState.initial()) {
     on<FetchSeriesDetailById>((event, emit) async {
       emit(state.copyWith(state: RequestState.Loading));
-      final detailResult = await getTvseriesDetail.execute(event.id);
+      final blocDetail = await seriesDetailbloc.execute(event.id);
 
-      detailResult.fold(
+      blocDetail.fold(
         (failure) async {
           emit(state.copyWith(state: RequestState.Error));
         },
@@ -50,7 +50,7 @@ class SeriesDetailBloc
         emit(state.copyWith(watchlistMessage: successMessage));
       });
 
-      add(LoadWatchlistStatus(event.seriesDetail.id));
+      add(WaitingWatchlistStatus(event.seriesDetail.id));
     });
     on<RemoveSeriesWatchlist>((event, emit) async {
       final result = await removeWatchlist.execute(event.seriesDetail);
@@ -61,10 +61,10 @@ class SeriesDetailBloc
         emit(state.copyWith(watchlistMessage: successMessage));
       });
 
-      add(LoadWatchlistStatus(event.seriesDetail.id));
+      add(WaitingWatchlistStatus(event.seriesDetail.id));
     });
-    on<LoadWatchlistStatus>((event, emit) async {
-      final result = await getWatchListStatus.execute(event.id);
+    on<WaitingWatchlistStatus>((event, emit) async {
+      final result = await getSeriesWatchListStatus.execute(event.id);
       emit(state.copyWith(isAddedToWatchlist: result));
     });
   }

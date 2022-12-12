@@ -30,7 +30,7 @@ class _FakeEither<L, R> extends _i1.Fake implements _i3.Either<L, R> {}
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetSeriesAiringToday extends _i1.Mock
-    implements _i4.GetAiringTodaySeries {
+    implements _i4.GetSeriesToday {
   MockGetSeriesAiringToday() {
     _i1.throwOnMissingStub(this);
   }
@@ -51,7 +51,7 @@ class MockGetSeriesAiringToday extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetSeriesOnTheAir extends _i1.Mock
-    implements _i8.GetOnTheAirSeries {
+    implements _i8.GetSeriesOnAir {
   MockGetSeriesOnTheAir() {
     _i1.throwOnMissingStub(this);
   }

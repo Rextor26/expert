@@ -16,7 +16,7 @@ void main(){
     dataSource = SeriesLocalDataSourceImpl(databaseHelperSeries: mockDatabaseSeriesHelper);
   });
 
-  group('Save watchlist Series series', (){
+  group('Save watchlist Series', (){
     test('should return success message wen insert to database is successful', () async{
       /// arrange
       when(mockDatabaseSeriesHelper.insertSeriesWatchlist(testSeriesTable))
@@ -27,14 +27,14 @@ void main(){
       expect(result, 'Added to watchlist');
     });
 
-    test('should throw DatabaseException when insert to database is failed', () async {
+    test('should throw DataBaseDb when insert to database is failed', () async {
       // arrange
       when(mockDatabaseSeriesHelper.insertSeriesWatchlist(testSeriesTable))
           .thenThrow(Exception());
       // act
       final call = dataSource.insertSeriesWatchlist(testSeriesTable);
       // assert
-      expect(() => call, throwsA(isA<DatabaseException>()));
+      expect(() => call, throwsA(isA<DataBaseDb>()));
     });
   });
 
@@ -50,7 +50,7 @@ void main(){
       expect(result, 'Remove from watchlist');
     });
 
-    test('should throw DatabaseException when remove from database is failed',
+    test('should throw DataBaseDb when remove from database is failed',
         () async {
       // arrange
       when(mockDatabaseSeriesHelper.removeWatchList(testSeriesTable))
@@ -58,11 +58,11 @@ void main(){
       // act
       final call = dataSource.removeWatchlistSeries(testSeriesTable);
       // assert
-      expect(() => call, throwsA(isA<DatabaseException>()));
+      expect(() => call, throwsA(isA<DataBaseDb>()));
     });
   });
 
-  group('Get Series Series Detail By Id', () {
+  group('Get Series Detail By Id', () {
     final tId = 1;
 
     test('should return Movie Detail Table when data is found', () async {
@@ -85,7 +85,7 @@ void main(){
     });
   });
 
-  group('get watchlist Series series', () {
+  group('get watchlist series', () {
     test('should return list of MovieTable from database', () async {
       // arrange
       when(mockDatabaseSeriesHelper.getWatchlistSeries())

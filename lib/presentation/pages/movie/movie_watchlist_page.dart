@@ -1,22 +1,22 @@
 // ignore_for_file: use_key_in_widget_constructors, camel_case_types, library_private_types_in_public_api, annotate_overrides, prefer_const_constructors, constant_identifier_names
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rextor_movie/presentation/bloc/movie_page_bloc.dart';
-import 'package:rextor_movie/presentation/bloc/movie_page_event.dart';
+import 'package:rextor_movie/presentation/bloc/movie_data_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/movie_watchlist_bloc.dart';
 import 'package:rextor_movie/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../bloc/movie_page_state_management.dart';
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
-class MovieWatchlist_Page extends StatefulWidget {
+class WatchListPageMovie extends StatefulWidget {
   static const initial_route = '/movie_watchlist';
 
   @override
-  _MovieWatchlist_PageState createState() => _MovieWatchlist_PageState();
+  _WatchListPageMovieStateManagementBloc createState() => _WatchListPageMovieStateManagementBloc();
 }
 
-class _MovieWatchlist_PageState extends State<MovieWatchlist_Page>
+class _WatchListPageMovieStateManagementBloc extends State<WatchListPageMovie>
     with RouteAware {
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _MovieWatchlist_PageState extends State<MovieWatchlist_Page>
       Future.microtask(() {
       context
           .read<WatchlistMovieBloc>()
-          .add(const FetchMoviesData());
+          .add(const GetDataMovieBloc());
     
     });
   }
@@ -38,7 +38,7 @@ class _MovieWatchlist_PageState extends State<MovieWatchlist_Page>
   void didPopNext() {
      context
         .read<WatchlistMovieBloc>()
-        .add(const FetchMoviesData());
+        .add(const GetDataMovieBloc());
   }
 
   @override
@@ -49,13 +49,13 @@ class _MovieWatchlist_PageState extends State<MovieWatchlist_Page>
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<WatchlistMovieBloc, MovieState>(
+        child: BlocBuilder<WatchlistMovieBloc, MovieStateManagementBloc>(
         builder: (context, state) {
-          if (state is LoadingData) {
+          if (state is LoadingDataMovie) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is LoadedData) {
+          } else if (state is LoadedDataMovie) {
             return ListView.builder(
               itemBuilder: (context, index) {
                 final movie = state.result[index];
@@ -63,7 +63,7 @@ class _MovieWatchlist_PageState extends State<MovieWatchlist_Page>
               },
               itemCount: state.result.length,
             );
-          } else if (state is ErrorData) {
+          } else if (state is ErrorDataMovie) {
             return Center(
               child: Text(state.message),
             );

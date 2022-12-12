@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:rextor_movie/presentation/bloc/series/series_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_event.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_detail_state_management.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_even.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_recomendation_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_state_management.dart';
 import 'package:rextor_movie/presentation/pages/series/series_detail_page.dart';
 
@@ -26,7 +26,7 @@ class seriesEventFake extends Fake implements SeriesEvent {}
 
 class MockRecommendationSeriesBloc
     extends MockBloc<SeriesEvent, SeriesStateManagement>
-    implements RecommendationTvseriesBloc {}
+    implements SeriesRecomendationBloc {}
 
 void main() {
   late MockTvseriesDetailBloc mockBloc;
@@ -46,7 +46,7 @@ void main() {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SeriesDetailBloc>.value(value: mockBloc),
-        BlocProvider<RecommendationTvseriesBloc>.value(value: mockBlocRecom),
+        BlocProvider<SeriesRecomendationBloc>.value(value: mockBlocRecom),
       ],
       child: MaterialApp(
         home: body,

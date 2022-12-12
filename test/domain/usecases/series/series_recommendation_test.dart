@@ -20,7 +20,7 @@ void main() {
   final tId = 1;
   final series = <Series>[];
 
-  test('should get list of Series Series recommendations from the repository',
+  test('should get list of series recommendations from the repository',
       () async {
     // arrange
     when(mockSeriesRepository.getSeriesRecommendations(tId))

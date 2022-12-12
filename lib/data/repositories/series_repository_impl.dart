@@ -36,35 +36,35 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
 
   @override
-  Future<Either<Failure, List<Series>>> getAiringTodaySeries() async{
+  Future<Either<Failure, List<Series>>> getSeriesToday() async{
     try{
-      final result = await remoteDataSource.getAiringTodaySeries();
+      final result = await remoteDataSource.getSeriesToday();
       return Right(result.map((e) => e.toEntity()).toList());
     }on ServerException{
       return Left(ServerFailure(''));
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
 
   @override
-  Future<Either<Failure, List<Series>>> getOnTheAirSeries() async{
+  Future<Either<Failure, List<Series>>> getSeriesOnAir() async{
     try{
-      final result = await remoteDataSource.getOnTheAirSeries();
+      final result = await remoteDataSource.getSeriesOnAir();
       return Right(result.map((e) => e.toEntity()).toList());
     }on ServerException{
       return Left(ServerFailure(''));
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
 
@@ -78,7 +78,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
 
@@ -92,7 +92,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed to connect the network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
   @override
@@ -105,7 +105,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed connect to network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
 
   }
@@ -120,7 +120,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     }on SocketException{
       return Left(ConnectionFailure('Failed connect to network'));
     }on TlsException{
-      return const Left(SSLFailure("CERTIFICATE_VERIFY_FAILED"));
+      return const Left(SecutitySLL("Sertifikat In Valid"));
     }
   }
   @override
@@ -142,7 +142,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     try{
       final result = await seriesLocalDataSource.removeWatchlistSeries(SeriesTable.fromEntity(seriesDetail));
       return Right(result);
-    }on DatabaseException catch(e){
+    }on DataBaseDb catch(e){
       return Left(DatabaseFailure(e.message));
     }
   }
@@ -152,7 +152,7 @@ class RepositorySeriesImpl implements RepositorySeries{
     try{
       final result = await seriesLocalDataSource.insertSeriesWatchlist(SeriesTable.fromEntity(seriesDetail));
       return Right(result);
-    }on DatabaseException catch (e){
+    }on DataBaseDb catch (e){
       return Left(DatabaseFailure(e.message));
     }catch(e){
       throw e;

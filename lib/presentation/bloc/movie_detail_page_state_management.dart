@@ -14,7 +14,12 @@ class MovieDetailState extends Equatable {
     required this.isAddedToWatchlist,
     required this.state,
   });
-
+  @override
+  List<Object> get props => [
+        watchlistMessage,
+        isAddedToWatchlist,
+        state,
+      ];
   MovieDetailState copyWith({
     MovieDetail? movieDetail,
     String? watchlistMessage,
@@ -38,10 +43,5 @@ class MovieDetailState extends Equatable {
     );
   }
 
-  @override
-  List<Object> get props => [
-        watchlistMessage,
-        isAddedToWatchlist,
-        state,
-      ];
+
 }

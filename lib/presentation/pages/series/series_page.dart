@@ -4,8 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rextor_movie/domain/entities/series/series.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_even.dart';
-import 'package:rextor_movie/presentation/bloc/series/series_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_on_air.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_popular_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_state_management.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_today_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/series/series_top_rated_bloc.dart';
 import 'package:rextor_movie/presentation/pages/about_page.dart';
 import 'package:rextor_movie/presentation/pages/movie/movie_home_page.dart';
 import 'package:rextor_movie/presentation/pages/series/series_today_page.dart';
@@ -33,10 +36,10 @@ class _SeriesPageState extends State<SeriesPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>{
-      context.read<seriesPopularBloc>().add(const FetchTvseriesData()),
-      context.read<TopratedSeriesBloc>().add(const FetchTvseriesData()),
-      context.read<SeriesTodayBloc>().add(const FetchTvseriesData()),
-      context.read<SeriesOnAirBloc>().add(const FetchTvseriesData())
+      context.read<seriesPopularBloc>().add(const GetDataSeries()),
+      context.read<TopratedSeriesBloc>().add(const GetDataSeries()),
+      context.read<SeriesTodayBloc>().add(const GetDataSeries()),
+      context.read<SeriesOnAirBloc>().add(const GetDataSeries())
     });
   }
 
@@ -57,7 +60,7 @@ class _SeriesPageState extends State<SeriesPage> {
               title: const Text('Movie'),
               onTap: () => {
                 // Navigator.pop(context)
-                Navigator.pushNamed(context, HomeMoviePage.initial_route)
+                Navigator.pushNamed(context, HomePageMovie.initial_route)
               },
             ),
           
@@ -102,7 +105,7 @@ class _SeriesPageState extends State<SeriesPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSubHeading(
+              kategori(
                 title: 'Top Rated',
                 onTap: () => Navigator.pushNamed(context, TopRatedSeriesPage.initial_route),
               ),
@@ -121,7 +124,7 @@ class _SeriesPageState extends State<SeriesPage> {
                 
               }),
 
-              _buildSubHeading(
+              kategori(
                 title: 'Popular',
                 onTap: () {
                   Navigator.pushNamed(context, PopularSeriesPage.initial_route);
@@ -142,10 +145,10 @@ class _SeriesPageState extends State<SeriesPage> {
                 
 
               }),
-              _buildSubHeading(
-                title: 'Series On The Air',
+              kategori(
+                title: 'Series on AirThe Air',
                 onTap: () {
-                  Navigator.pushNamed(context, SeriesOnTheAirPage.initial_route);
+                  Navigator.pushNamed(context, SeriesOnAirPage.initial_route);
                 }
               ),       
                      BlocBuilder<SeriesOnAirBloc, SeriesStateManagement>(
@@ -163,10 +166,10 @@ class _SeriesPageState extends State<SeriesPage> {
                 
 
               }),
-              _buildSubHeading(
+              kategori(
                 title: 'Series Today',
                 onTap: () {
-                  Navigator.pushNamed(context, AiringTodayPage.initial_route);
+                  Navigator.pushNamed(context, SeriesTodayPage.initial_route);
                 }
               ),
                    BlocBuilder<SeriesTodayBloc, SeriesStateManagement>(
@@ -191,7 +194,7 @@ class _SeriesPageState extends State<SeriesPage> {
     );
   }
 
-  Row _buildSubHeading({required String title, required Function() onTap}) {
+  Row kategori({required String title, required Function() onTap}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

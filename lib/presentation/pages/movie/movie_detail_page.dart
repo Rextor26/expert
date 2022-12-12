@@ -7,48 +7,48 @@ import 'package:rextor_movie/domain/entities/movie/movie_detail.dart';
 import 'package:rextor_movie/common/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:rextor_movie/presentation/bloc/movie_detail_byId_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/movie_detail_page_bloc.dart';
-import 'package:rextor_movie/presentation/bloc/movie_detail_page_event.dart';
 import 'package:rextor_movie/presentation/bloc/movie_detail_page_state_management.dart';
-import 'package:rextor_movie/presentation/bloc/movie_page_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/movie_insert_watchlist_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/movie_page_event.dart';
+import 'package:rextor_movie/presentation/bloc/movie_recomendation_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/movie_remove_bloc.dart';
 
 import '../../bloc/movie_page_state_management.dart';
+import '../../bloc/movie_watchlist_status_bloc.dart';
 
-class MovieDetailPage extends StatefulWidget {
+class DetailPageMovie extends StatefulWidget {
   static const initial_route = '/detail';
 
   final int id;
-  MovieDetailPage({super.key, required this.id});
+  DetailPageMovie({super.key, required this.id});
 
   @override
-  _MovieDetailPageState createState() => _MovieDetailPageState();
+  _DetailPageMovieStateManagementBloc createState() =>
+      _DetailPageMovieStateManagementBloc();
 }
 
-class _MovieDetailPageState extends State<MovieDetailPage> {
+class _DetailPageMovieStateManagementBloc extends State<DetailPageMovie> {
   @override
   void initState() {
     super.initState();
-   Future.microtask(() {
-      context
-          .read<RecommendationMoviesBloc>()
-          .add(FetchMovieDataWithId(widget.id));
-      context
-          .read<MovieDetailBloc>()
-          .add(FetchMovieDetailDataWithId(widget.id));
-      context.read<MovieDetailBloc>().add(LoadWatchlistStatus(widget.id));
+    Future.microtask(() {
+      context.read<RecBlocMovie>().add(GetDataMovieById(widget.id));
+      context.read<GetDetaiMovieBloc>().add(DetailMovieById(widget.id));
+      context.read<GetDetaiMovieBloc>().add(WaitingWatchlistStatus(widget.id));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<MovieDetailBloc, MovieDetailState>(
+      body: BlocConsumer<GetDetaiMovieBloc, MovieDetailState>(
         listener: (context, state) async {
           if (state.watchlistMessage ==
-                  MovieDetailBloc.watchlistAddSuccessMessage ||
+                  GetDetaiMovieBloc.insertWatchListSucces ||
               state.watchlistMessage ==
-                  MovieDetailBloc.watchlistRemoveSuccessMessage) {
+                  GetDetaiMovieBloc.removeWatchlistSucces) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.watchlistMessage),
               duration: const Duration(seconds: 1),
@@ -131,7 +131,7 @@ class DetailContent extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                             Center(
+                            Center(
                               child: CachedNetworkImage(
                                 imageUrl:
                                     'https://image.tmdb.org/t/p/w500${movie.posterPath}',
@@ -148,75 +148,73 @@ class DetailContent extends StatelessWidget {
                                 children: [
                                   Text(
                                     movie.title,
-                                     style: const TextStyle(
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                              _showGenres(movie.genres),
-                            ),
-                            Text(
-                              _showDuration(movie.runtime),
-                            ),
+                                    genreFilm(movie.genres),
+                                  ),
+                                  Text(
+                                    _showDuration(movie.runtime),
+                                  ),
                                 ],
                               ),
                             ),
                             Center(
                               child: ElevatedButton(
-                                 style: ElevatedButton.styleFrom(
-                                              backgroundColor: const Color.fromARGB(
-                                                  255, 0, 11, 71),
-                                            ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 0, 11, 71),
+                                ),
                                 onPressed: () async {
                                   if (!isAddedWatchlist) {
                                     context
-                                      .read<MovieDetailBloc>()
-                                      .add(AddWatchlist(movie));
+                                        .read<GetDetaiMovieBloc>()
+                                        .add(InsertWatchlistMovie(movie));
                                   } else {
-                                   
-                                           context
-                                      .read<MovieDetailBloc>().add(RemoveWatchlist(movie));
-                                      
+                                    context
+                                        .read<GetDetaiMovieBloc>()
+                                        .add(RemoveWatchlistMovie(movie));
                                   }
-
-                              
-
-                                 
-                                  
                                 },
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text('Watchlist',style: TextStyle(color: Colors.white),),
+                                    Text(
+                                      'Watchlist',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     isAddedWatchlist
-                                    
-                                        ? Icon(Icons.check,)
-                                        : Icon(Icons.add,),
-                                    
+                                        ? Icon(
+                                            Icons.check,
+                                          )
+                                        : Icon(
+                                            Icons.add,
+                                          ),
                                   ],
                                 ),
                               ),
                             ),
-                             const SizedBox(
-                                    height: 1,
-                                  ),
-                                  Container(
-                                      margin: const EdgeInsets.only(bottom: 10),
-                                      child: const Text(
-                                        'Rating',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      )),
+                            const SizedBox(
+                              height: 1,
+                            ),
+                            Container(
+                                margin: const EdgeInsets.only(bottom: 10),
+                                child: const Text(
+                                  'Rating',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )),
                             Row(
                               children: [
-                                
                                 RatingBarIndicator(
                                   rating: movie.voteAverage / 2,
                                   itemCount: 5,
                                   itemBuilder: (context, index) => Icon(
                                     Icons.star,
-                                     color: Colors.amber,
+                                    color: Colors.amber,
                                   ),
                                   itemSize: 24,
                                 ),
@@ -224,30 +222,32 @@ class DetailContent extends StatelessWidget {
                               ],
                             ),
                             Container(
-                                      margin: const EdgeInsets.only(bottom: 10),
-                                      child: const Text(
-                                        'Overview',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      )),
+                                margin: const EdgeInsets.only(bottom: 10),
+                                child: const Text(
+                                  'Overview',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )),
                             Text(
                               movie.overview,
                             ),
                             SizedBox(height: 16),
-                             const SizedBox(height: 16,),
-                                  const Text(
-                                    'Recommendations',
-                                    style: TextStyle(
-                                        fontSize: 20, fontWeight: FontWeight.bold),
-                                  ),
-                                  BlocBuilder<RecommendationMoviesBloc, MovieState>(
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            const Text(
+                              'Recommendations',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            BlocBuilder<RecBlocMovie, MovieStateManagementBloc>(
                               builder: (context, state) {
-                                if (state is LoadingData) {
+                                if (state is LoadingDataMovie) {
                                   return const Center(
                                     child: CircularProgressIndicator(),
                                   );
-                                } else if (state is LoadedData) {
+                                } else if (state is LoadedDataMovie) {
                                   final result = state.result;
                                   return SizedBox(
                                     height: 150,
@@ -261,7 +261,7 @@ class DetailContent extends StatelessWidget {
                                             onTap: () {
                                               Navigator.pushReplacementNamed(
                                                 context,
-                                                MovieDetailPage.initial_route,
+                                                DetailPageMovie.initial_route,
                                                 arguments: movie.id,
                                               );
                                             },
@@ -294,8 +294,6 @@ class DetailContent extends StatelessWidget {
                                 }
                               },
                             ),
-
-     
                           ],
                         ),
                       ),
@@ -334,7 +332,7 @@ class DetailContent extends StatelessWidget {
     );
   }
 
-  String _showGenres(List<Genre> genres) {
+  String genreFilm(List<Genre> genres) {
     String result = '';
     for (var genre in genres) {
       result += genre.name + ', ';

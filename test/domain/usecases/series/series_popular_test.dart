@@ -17,10 +17,10 @@ void main() {
 
   final series = <Series>[];
 
-  group('Get Series Series Popular Tests', () {
+  group('Get series Popular Tests', () {
     group('execute', () {
       test(
-          'should get list of Series Series from the repository when execute function is called',
+          'should get list of series from the repository when execute function is called',
           () async {
         // arrange
         when(mockSeriesRpository.getPopularSeries())

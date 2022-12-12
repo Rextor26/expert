@@ -2,10 +2,11 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_even.dart';
-import 'package:rextor_movie/presentation/bloc/series/series_bloc.dart';
 import 'package:rextor_movie/presentation/bloc/series/series_state_management.dart';
 import 'package:rextor_movie/presentation/widgets/series_card.dart';
 import 'package:flutter/material.dart';
+
+import '../../bloc/series/series_top_rated_bloc.dart';
 class TopRatedSeriesPage extends StatefulWidget {
   static const initial_route = '/topRatedPage_Series';
 
@@ -18,14 +19,14 @@ class _TopRatedSeriesPageState extends State<TopRatedSeriesPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-      context.read<TopratedSeriesBloc>().add(const FetchTvseriesData()));
+      context.read<TopratedSeriesBloc>().add(const GetDataSeries()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: const Color.fromARGB(255, 0, 3, 71),
-        title: const Text('Top Rated Series Series'),
+        title: const Text('Top Rated series'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

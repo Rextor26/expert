@@ -10,7 +10,7 @@ abstract class MovieLocalDataSource {
 }
 
 class MovieLocalDataSourceImpl implements MovieLocalDataSource {
-  final DatabaseHelper databaseHelper;
+  final DatabaseMovieHelper databaseHelper;
 
   MovieLocalDataSourceImpl({required this.databaseHelper});
 
@@ -20,7 +20,7 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
       await databaseHelper.insertWatchlist(movie);
       return 'Added to Watchlist';
     } catch (e) {
-      throw DatabaseException(e.toString());
+      throw DataBaseDb(e.toString());
     }
   }
 
@@ -30,7 +30,7 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
       await databaseHelper.removeWatchlist(movie);
       return 'Removed from Watchlist';
     } catch (e) {
-      throw DatabaseException(e.toString());
+      throw DataBaseDb(e.toString());
     }
   }
 

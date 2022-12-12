@@ -22,7 +22,7 @@ class SearchSeriesPage extends StatelessWidget {
           children: [
             TextField(
               onChanged: (query) {
-                context.read<SearchSeriesBloc>().add(OnQueryChangedSeries(query));
+                context.read<SearchSeriesBloc>().add(QueryInputSeries(query));
               },
               
               decoration: const InputDecoration(

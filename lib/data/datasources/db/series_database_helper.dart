@@ -9,7 +9,6 @@ class DatabaseSeriesHelper{
   }
 
   factory DatabaseSeriesHelper() => _databaseHelperSeries ?? DatabaseSeriesHelper._instance();
-
   static Database? _database;
   Future<Database?> get database async{
     _database ??= await _initDb();

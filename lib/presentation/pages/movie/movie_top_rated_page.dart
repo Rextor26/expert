@@ -1,26 +1,25 @@
 // ignore_for_file: use_key_in_widget_constructors, constant_identifier_names, library_private_types_in_public_api, prefer_const_constructors
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rextor_movie/presentation/bloc/movie_page_event.dart';
+import 'package:rextor_movie/presentation/bloc/movie_data_bloc.dart';
+import 'package:rextor_movie/presentation/bloc/movie_top_rated_bloc.dart';
 import 'package:rextor_movie/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
-
-import '../../bloc/movie_page_bloc.dart';
 import '../../bloc/movie_page_state_management.dart';
 
-class TopRatedMoviesPage extends StatefulWidget {
+class TopRatedPageMovie extends StatefulWidget {
   static const initial_route = '/movie_toprated';
 
   @override
-  _TopRatedMoviesPageState createState() => _TopRatedMoviesPageState();
+  _TopRatedPageMovieStateManagementBloc createState() => _TopRatedPageMovieStateManagementBloc();
 }
 
-class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
+class _TopRatedPageMovieStateManagementBloc extends State<TopRatedPageMovie> {
   @override
   void initState() {
     super.initState();
    Future.microtask(
-        () => context.read<TopRatedMovieBloc>().add(const FetchMoviesData()));
+        () => context.read<TopRatedMovieBloc>().add(const GetDataMovieBloc()));
   }
 
   @override
@@ -31,14 +30,14 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<TopRatedMovieBloc, MovieState>
+        child: BlocBuilder<TopRatedMovieBloc, MovieStateManagementBloc>
         (
           builder: (context, state) {
-            if (state is LoadingData) {
+            if (state is LoadingDataMovie) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is LoadedData) {
+            } else if (state is LoadedDataMovie) {
               final result = state.result;
               return ListView.builder(
                 itemBuilder: (context, index) {
@@ -47,7 +46,7 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
                 },
                 itemCount: result.length,
               );
-            } else if (state is ErrorData) {
+            } else if (state is ErrorDataMovie) {
               return Center(
                 child: Text(state.message),
               );

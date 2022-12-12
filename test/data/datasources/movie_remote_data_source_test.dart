@@ -212,7 +212,7 @@ void main() {
     final tId = 1;
     final seriesDetail = SeriesDetailResponse.fromJson(json.decode(readJson('dummy_data/series_detail.json')));
 
-    test('should return Series Series Detail Table when data is found', () async {
+    test('should return Series Detail Table when data is found', () async {
       ///arrange
       when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/$tId?$API_KEY'))).thenAnswer((_) async => http.Response(readJson('dummy_data/series_detail.json'), 200));
       ///act
@@ -234,11 +234,11 @@ void main() {
   group('get airing today', () {
     final seriesList = ResponseSeries.fromJson(json.decode(readJson('dummy_data/series_airing_today.json'))).seriesList;
 
-    test('should return Series Series airing today when data is found', () async {
+    test('should return  Series airing today when data is found', () async {
       ///arrange
       when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/airing_today?$API_KEY'))).thenAnswer((_) async => http.Response(readJson('dummy_data/series_airing_today.json'), 200));
       ///act
-      final result = await dataSource.getAiringTodaySeries();
+      final result = await dataSource.getSeriesToday();
       ///assert
       expect(result, seriesList);
     });
@@ -247,7 +247,7 @@ void main() {
       ///arrange
       when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/airing_today?$API_KEY'))).thenAnswer((_) async => http.Response('Not Found', 404));
       ///act
-      final call = dataSource.getAiringTodaySeries();
+      final call = dataSource.getSeriesToday();
       ///assert
       expect(() => call, throwsA(isA<ServerException>()));
     });
@@ -256,11 +256,11 @@ void main() {
   group('get on the air', () {
     final seriesList = ResponseSeries.fromJson(json.decode(readJson('dummy_data/series_on_the_air.json'))).seriesList;
 
-    test('should return series Series on the air when data is found', () async {
+    test('should return series on the air when data is found', () async {
       ///arrange
       when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY'))).thenAnswer((_) async => http.Response(readJson('dummy_data/series_on_the_air.json'), 200));
       ///act
-      final result = await dataSource.getOnTheAirSeries();
+      final result = await dataSource.getSeriesOnAir();
       ///assert
       expect(result, seriesList);
     });
@@ -269,16 +269,16 @@ void main() {
       ///arrange
       when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY'))).thenAnswer((_) async => http.Response('Not Found', 404));
       ///act
-      final call = dataSource.getOnTheAirSeries();
+      final call = dataSource.getSeriesOnAir();
       ///assert
       expect(() => call, throwsA(isA<ServerException>()));
     });
   });
 
-  group('get popular Series series', () {
+  group('get popular Series ', () {
     final seriesList = ResponseSeries.fromJson(json.decode(readJson('dummy_data/series_popular.json'))).seriesList;
 
-    test('should return Series Series popular when data is found', () async {
+    test('should return Series popular when data is found', () async {
       ///arrange
       when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/popular?$API_KEY'))).thenAnswer((_) async => http.Response(readJson('dummy_data/series_popular.json'), 200));
       ///act
@@ -297,10 +297,10 @@ void main() {
     });
   });
 
-  group('get top rated Series series', () {
+  group('get top rated Series', () {
     final seriesList = ResponseSeries.fromJson(json.decode(readJson('dummy_data/series_top_rated.json'))).seriesList;
 
-    test('should return Series Series top rated when data is found', () async {
+    test('should return Series top rated when data is found', () async {
       ///arrange
       when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/top_rated?$API_KEY'))).thenAnswer((_) async => http.Response(readJson('dummy_data/series_top_rated.json'), 200));
       ///act
@@ -322,7 +322,7 @@ void main() {
     final tSearchResult = ResponseSeries.fromJson(json.decode(readJson('dummy_data/series_search.json'))).seriesList;
     final tQuery = 'Spiderman';
 
-    test('should return Series Series when data is found', () async {
+    test('should return Series when data is found', () async {
       ///arrange
       when(mockHttpClient
           .get(Uri.parse('$BASE_URL/search/tv?$API_KEY&query=$tQuery')))

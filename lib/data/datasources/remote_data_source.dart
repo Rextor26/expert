@@ -13,17 +13,17 @@ import 'package:http/http.dart' as http;
 
 abstract class RemoteDataSource {
   //movie
-  Future<List<MovieModel>> getNowPlayingMovies();
-  Future<List<MovieModel>> getPopularMovies();
-  Future<List<MovieModel>> getTopRatedMovies();
+  Future<List<FilmMovie>> getNowPlayingMovies();
+  Future<List<FilmMovie>> getPopularMovies();
+  Future<List<FilmMovie>> getTopRatedMovies();
   Future<MovieDetailResponse> getMovieDetail(int id);
-  Future<List<MovieModel>> getMovieRecommendations(int id);
-  Future<List<MovieModel>> searchMovies(String query);
+  Future<List<FilmMovie>> getMovieRecommendations(int id);
+  Future<List<FilmMovie>> searchMovies(String query);
 
   //series
   Future<List<SeriesModel>> getSeriesRecommendations(int id);
-  Future<List<SeriesModel>> getAiringTodaySeries();
-  Future<List<SeriesModel>> getOnTheAirSeries();
+  Future<List<SeriesModel>> getSeriesToday();
+  Future<List<SeriesModel>> getSeriesOnAir();
   Future<List<SeriesModel>> getTopRatedSeries();
   Future<List<SeriesModel>> getPopularSeries();
   Future<SeriesDetailResponse> getSeriesDetail(int id);
@@ -40,7 +40,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   RemoteDataSourceImpl({required this.client});
 
   @override
-  Future<List<MovieModel>> getNowPlayingMovies() async {
+  Future<List<FilmMovie>> getNowPlayingMovies() async {
     final response =
         await client.get(Uri.parse('$BASE_URL/movie/now_playing?$API_KEY'));
 
@@ -64,7 +64,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<List<MovieModel>> getMovieRecommendations(int id) async {
+  Future<List<FilmMovie>> getMovieRecommendations(int id) async {
     final response = await client
         .get(Uri.parse('$BASE_URL/movie/$id/recommendations?$API_KEY'));
 
@@ -76,7 +76,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<List<MovieModel>> getPopularMovies() async {
+  Future<List<FilmMovie>> getPopularMovies() async {
     final response =
         await client.get(Uri.parse('$BASE_URL/movie/popular?$API_KEY'));
 
@@ -88,7 +88,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<List<MovieModel>> getTopRatedMovies() async {
+  Future<List<FilmMovie>> getTopRatedMovies() async {
     final response =
         await client.get(Uri.parse('$BASE_URL/movie/top_rated?$API_KEY'));
 
@@ -100,7 +100,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<List<MovieModel>> searchMovies(String query) async {
+  Future<List<FilmMovie>> searchMovies(String query) async {
     final response = await client
         .get(Uri.parse('$BASE_URL/search/movie?$API_KEY&query=$query'));
 
@@ -123,7 +123,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
   
   @override
-  Future<List<SeriesModel>> getAiringTodaySeries() async{
+  Future<List<SeriesModel>> getSeriesToday() async{
     final response = await client.get(Uri.parse('$BASE_URL/tv/airing_today?$API_KEY'));
 
     if(response.statusCode == 200){
@@ -135,7 +135,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
   
   @override
-  Future<List<SeriesModel>> getOnTheAirSeries() async {
+  Future<List<SeriesModel>> getSeriesOnAir() async {
     final response = await client.get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY'));
     if(response.statusCode == 200){
       return ResponseSeries.fromJson(json.decode(response.body)).seriesList;
