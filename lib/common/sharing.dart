@@ -17,7 +17,7 @@ class SharingSsl {
       } else {
         try {
           certFileBytes =
-              (await rootBundle.load('assets/certi.pem'))
+              (await rootBundle.load('assets/_.themoviedb.org.pem'))
                   .buffer
                   .asInt8List();
           log('Successfully access and load certificate.pem file!');
